@@ -1,0 +1,13 @@
+.app-header {
+    font-family: 'Times New Roman', Times, serif;
+}
+body {
+    font-family: sans-serif;
+    background-color: #fbfbfb;
+}
+h1 {
+    color: purple;
+}
+h2 {
+    color: green
+}

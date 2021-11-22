@@ -1,1 +1,5 @@
 env/*
+.vscode/*
+books_dash.egg-info/*
+scratchpad.ipynb
+*/__pycache__/*
