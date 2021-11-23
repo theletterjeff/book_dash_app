@@ -5,6 +5,7 @@ import sqlite3 as sql
 # Third party
 from codetiming import Timer
 import pandas as pd
+from sqlalchemy import create_engine
 
 # Dash
 import dash
