@@ -19,6 +19,7 @@ import lib.database_helper as db
 t = Timer()
 
 app = dash.Dash(__name__)
+server = app.server
 
 db_path = os.path.abspath('data/books.db')
 with db.connect(db_path) as con:
