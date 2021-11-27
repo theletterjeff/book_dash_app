@@ -70,27 +70,7 @@ app.layout = html.Div(className='base-page', children=[
 
 ])
 
-# @app.callback(
-#     Output('graph', 'figure'),
-#     Input('dropdown', 'value')
-# )
-# def update_graph(authors: list):
-#     filtered_df = df.loc[df.author.isin(authors)]
-#     filtered_df = filtered_df.sort_values(by='average_rating')
-#     filtered_df = filtered_df.drop_duplicates(subset=['title'])
-#     filtered_df = filtered_df.drop_duplicates(subset=['isbn13'])
-#     # filtered_df['title'] = filtered_df['title'].transform(lambda x: '\n'.join(textwrap.wrap(x, width=10)))
 
-#     fig = px.bar(filtered_df,
-#                   x='average_rating',
-#                   y='title',
-#                   color='author',
-#                   orientation='h',
-#                   text='average_rating',
-#                   height=len(filtered_df) * 50,
-#                   )
-#     fig.update_layout(barmode='stack', xaxis={'categoryorder': 'total descending'})
-#     return fig
 
 @app.callback(
     Output('graph', 'figure'),
