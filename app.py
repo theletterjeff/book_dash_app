@@ -72,7 +72,16 @@ app.layout = html.Div(className='base-page', children=[
     html.Div([
         dcc.Graph(id='graph'),
     ], style={'width': '75%'}
-    )
+    ),
+
+    html.Div([
+        dcc.Markdown("""
+            This project pulls from two primary data sources. The first is the ["Goodreads-books" dataset](https://www.kaggle.com/jealousleopard/goodreadsbooks) from Kaggle. The second is a scraped dataset that uses the Kaggle data's ISBN codes to export metadata and categories from the Google Books service. We use [isbnlib](https://pypi.org/project/isbnlib/) to peform the data scraping.
+        """)
+    ], style={
+        'width': '50%',
+        'fontSize': '12px',
+    })
 
 ], style={
     'position': 'relative',
