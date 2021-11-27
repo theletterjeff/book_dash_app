@@ -72,7 +72,10 @@ app.layout = html.Div(className='base-page', children=[
         'width': '75%',
     })
 
-])
+], style={
+    'position': 'relative',
+    'left': '10px',
+})
 
 
 
