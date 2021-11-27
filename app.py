@@ -5,6 +5,7 @@ import textwrap
 
 # Third party
 from codetiming import Timer
+import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 
@@ -60,7 +61,7 @@ app.layout = html.Div(className='base-page', children=[
                 for label
                 in df['author'].sort_values().unique()
             ],
-            value=['David Foster Wallace', 'J. K. Rowling', 'Stephen King'],
+            value=['Alice Munro'],
             multi=True,
         ),
 
@@ -77,31 +78,39 @@ app.layout = html.Div(className='base-page', children=[
     Input('dropdown', 'value')
 )
 def update_graph(authors: list):
-    filtered_df = df.loc[df.author.isin(authors)]
-    filtered_df = filtered_df.sort_values(by='average_rating')
-    filtered_df = filtered_df.drop_duplicates(subset=['title'])
-    filtered_df = filtered_df.drop_duplicates(subset=['isbn13'])
-
-    # Set author colors
-    authors_unique = filtered_df['author'].unique()
-    authors_num = len(authors_unique)
-    author_colors_all = px.colors.qualitative.Plotly[:authors_num]
-    author_colors_repl = {author: color for author, color in zip(authors_unique, author_colors_all)}
-    filtered_df['author_color'] = filtered_df['author'].replace(author_colors_repl)
-
     fig = go.Figure()
-    
-    fig.add_trace(go.Bar(
-        x=filtered_df['average_rating'],
-        y=filtered_df['title'],
-        orientation='h',
-        marker_color=filtered_df['author_color'],
-        text=filtered_df['average_rating'],
-    ))
-    fig.update_layout(
-        height=len(filtered_df) * 40,
-        title='Book Titles with Average Goodreads Ratings',
-    )
+
+    if len(authors) > 0:
+        filtered_df = df.loc[df.author.isin(authors)]
+        filtered_df = filtered_df.sort_values(by='average_rating')
+        filtered_df = filtered_df.drop_duplicates(subset=['title'])
+        filtered_df = filtered_df.drop_duplicates(subset=['isbn13'])
+
+        # Set author colors
+        authors_unique = filtered_df['author'].unique()
+        authors_num = len(authors_unique)
+        author_colors = px.colors.qualitative.Plotly[:authors_num]
+
+        for idx, author in enumerate(authors_unique):
+            author_df = filtered_df.copy()
+            author_df.loc[filtered_df['author'] != author, 'average_rating'] = np.nan
+        
+            fig.add_trace(go.Bar(
+                x=author_df['average_rating'],
+                y=author_df['title'],
+                orientation='h',
+                marker_color=author_colors[idx],
+                text=author_df['average_rating'],
+                name=author,
+                # width=np.repeat(10, len(author_df)),
+            ))
+
+        fig.update_layout(
+            height= 150 + len(filtered_df) * 50,
+            title='Book Titles with Average Goodreads Ratings',
+            showlegend=True,
+            barmode='relative',
+        )
     return fig
 
 if __name__ == '__main__':
