@@ -18,6 +18,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # Custom
+from lib import graph_helper
 import lib.database_helper as db
 
 t = Timer()
@@ -67,7 +68,9 @@ app.layout = html.Div(className='base-page', children=[
 
         # Graph
         dcc.Graph(id='graph'),
-    ])
+    ], style={
+        'width': '75%',
+    })
 
 ])
 
@@ -86,6 +89,9 @@ def update_graph(authors: list):
         filtered_df = filtered_df.drop_duplicates(subset=['title'])
         filtered_df = filtered_df.drop_duplicates(subset=['isbn13'])
 
+        # Wrap titles
+        filtered_df['title'] = graph_helper.wrap_text(filtered_df['title'], 40)
+
         # Set author colors
         authors_unique = filtered_df['author'].unique()
         authors_num = len(authors_unique)
@@ -102,7 +108,6 @@ def update_graph(authors: list):
                 marker_color=author_colors[idx],
                 text=author_df['average_rating'],
                 name=author,
-                # width=np.repeat(10, len(author_df)),
             ))
 
         fig.update_layout(
@@ -110,6 +115,9 @@ def update_graph(authors: list):
             title='Book Titles with Average Goodreads Ratings',
             showlegend=True,
             barmode='relative',
+            font=dict(
+                size=14,
+            )
         )
     return fig
 
