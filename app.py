@@ -52,7 +52,7 @@ app.layout = html.Div(className='base-page', children=[
     # Main
     html.Div([
         # Text
-        'Choose an author',
+        dcc.Markdown('''Choose an author:'''),
 
         # Dropdown filter
         dcc.Dropdown(
@@ -64,19 +64,20 @@ app.layout = html.Div(className='base-page', children=[
             ],
             value=['Alice Munro'],
             multi=True,
-        ),
+    )], style={'width': '30%'}),
 
-        # Graph
+    html.Br(),
+
+    # Graph
+    html.Div([
         dcc.Graph(id='graph'),
-    ], style={
-        'width': '75%',
-    })
+    ], style={'width': '75%'}
+    )
 
 ], style={
     'position': 'relative',
     'left': '10px',
 })
-
 
 
 @app.callback(
@@ -113,15 +114,26 @@ def update_graph(authors: list):
                 name=author,
             ))
 
+        # Set some core graph attributes
         fig.update_layout(
-            height= 150 + len(filtered_df) * 50,
-            title='Book Titles with Average Goodreads Ratings',
-            showlegend=True,
+            height= 170 + len(filtered_df) * 50,
+            title='Book Titles with Average Goodreads Ratings by Author',
             barmode='relative',
-            font=dict(
-                size=14,
+            font=dict(size=14),
+        )
+
+        # Set legend
+        fig.update_layout(
+            showlegend=True,
+            legend=dict(
+                orientation='h',
+                yanchor='bottom',
+                y=1,
+                xanchor='right',
+                x=1,
             )
         )
+
     return fig
 
 if __name__ == '__main__':
