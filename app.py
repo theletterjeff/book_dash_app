@@ -52,7 +52,7 @@ app.layout = html.Div(className='base-page', children=[
     # Main
     html.Div([
         # Text
-        dcc.Markdown('''Choose an author:'''),
+        dcc.Markdown('''Choose one or more authors:'''),
 
         # Dropdown filter
         dcc.Dropdown(
