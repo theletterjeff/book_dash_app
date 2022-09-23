@@ -126,7 +126,7 @@ def update_graph(authors: list):
         # Set some core graph attributes
         fig.update_layout(
             height= 170 + len(filtered_df) * 50,
-            title='Book Titles with Average Goodreads Ratings by Author',
+            title='Books with Goodreads Ratings',
             barmode='relative',
             font=dict(size=14),
         )
