@@ -11,6 +11,6 @@ setup(
     description='Goodreads data visualizer',
     long_description=long_description,
     packages=find_packages(),
-    python_version=3.7,
+    python_requires=">=3.6",
 )
 
